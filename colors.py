@@ -18,7 +18,7 @@ third_panda = np.array(Image.open('./images/panda_brzuch.jpg'))
 panda_array = [first_panda,second_panda,third_panda]
 
 
-figure,histogram = plt.subplots(2,3)
+figure,histogram = plt.subplots(5,3)
 
 for i in range(len(panda_array)):
     panda = panda_array[i]
@@ -26,5 +26,7 @@ for i in range(len(panda_array)):
 
     histogram[0,i].imshow(panda)
     histogram[1,i].plot(ndimage.histogram(panda_gray,0,255,256))
-
+    histogram[2,i].imshow(panda[:,:,0])
+    histogram[3,i].imshow(panda[:,:,1])
+    histogram[4,i].imshow(panda[:,:,2])
 plt.show()
