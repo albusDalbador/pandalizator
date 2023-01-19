@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 from PIL import Image
 from math import isclose
+from imhist import imhist
 
 def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
@@ -21,6 +22,7 @@ gray_third_panda = np.array(Image.open('./images/panda_00111.jpg').convert('L'))
 gray_panda_array = [gray_first_panda,gray_second_panda,gray_third_panda]
 
 figure,axis = plt.subplots(3,3)
+figure,hist = plt.subplots(3,3)
 
 for i  in range(0,3):
     gray_panda = gray_panda_array[i]
@@ -30,15 +32,20 @@ for i  in range(0,3):
     binary_closed_black = ndimage.binary_closing(black_parts,iterations=5)
     greyscale_closed = ndimage.grey_closing(panda_gray,size=(25,25))
     greyscale_black_extracted = np.where(greyscale_closed < 0.2, 1, 0)
+    median_filtered = ndimage.median_filter(black_parts,size=5)
 
     # close_filtered = np.where(isclose(panda[:,:,0],panda[:,:,1],rel_tol=0.01) & isclose(panda[:,:,0],panda[:,:,2],rel_tol=0.01) & isclose(panda[:,:,1],panda[:,:,2],rel_tol=0.01),panda[:,:,[255,255,255]],panda[:,:,[0,0,0]])
     close_filtered = np.zeros((panda.shape[0],panda.shape[1]))
     for x in range (panda.shape[0]):
         for y in range(panda.shape[1]):
-            if isclose(panda[x,y,0],panda[x,y,1],rel_tol=0.03) and isclose(panda[x,y,0],panda[x,y,2],rel_tol=0.03) and isclose(panda[x,y,2],panda[x,y,1],rel_tol=0.03):
+            if isclose(panda[x,y,0],panda[x,y,1],rel_tol=0.1) and isclose(panda[x,y,0],panda[x,y,2],rel_tol=0.1) and isclose(panda[x,y,2],panda[x,y,1],rel_tol=0.1):
                 close_filtered[x,y] = 1
             else:
                 close_filtered[x,y] = 0
+
+    hist[0,i].plot(ndimage.histogram(gray_panda,0,1,256))
+    hist[1,i].imshow(gray_panda,cmap='gray')
+    hist[2,i].imshow(median_filtered,cmap='gray')
 
     axis[0,i].imshow(close_filtered,cmap='gray')
     axis[1,i].imshow(binary_closed_black,cmap='gray')
