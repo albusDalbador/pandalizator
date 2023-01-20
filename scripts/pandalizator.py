@@ -1,8 +1,16 @@
  
 from distutils.log import error
-import cv2
 import numpy as np 
 import matplotlib.pyplot as plt 
+import json 
+from json import JSONEncoder
+
+
+# class NumpyArrayEncoder(JSONEncoder):
+#     def default(self, obj):
+#         if isinstance(obj, numpy.ndarray):
+#             return obj.tolist()
+#         return JSONEncoder.default(self, obj)
 
 
 class Pandalizator():
@@ -15,11 +23,12 @@ class Pandalizator():
     def fit(self,Images,target_values):
         rgen = np.random.RandomState(self.random_state)
         
-        self.weights_ = rgen.normal(loc=0.0,scale=0.1,size=X.shape)
+        self.weights_ = rgen.normal(loc=0.0,scale=0.1,size=len(Images[0]))
         self.bias_ = np.float_(0.)
         self.errors_ = []
 
-        for _ in range(self.n_iter):
+        for it in range(self.n_iter):
+            print('iteration  ',it)
             errors = 0
             for sample,target in zip(Images,target_values):
                 update = self.eta * (target - self.predict(sample))
@@ -36,3 +45,22 @@ class Pandalizator():
     
     def predict(self,sample):
         return np.where(self.net_input(sample) >= 0.0, 1, 0)
+
+    
+    def save_model_to_file(self,filename='model.json'):
+        data = {
+            "bias": self.bias_,
+            "weights": self.weights_.tolist()
+        }
+
+        json_object = json.dumps(data)
+        
+        with open(filename,'w') as output:
+            output.write(json_object)
+
+
+    def read_model_from_file(self,filename='model.json'):
+        with open(filename,'r') as input:
+            data = json.load(input)
+            self.bias_ = data['bias']
+            self.weights_ = np.array(data['weights'])
