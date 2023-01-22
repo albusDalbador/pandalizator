@@ -6,16 +6,10 @@ from scipy import ndimage
 import cv2
 import numpy as np
 from PIL import Image
-from scipy.special import euler
 
 
 def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
-
-first_panda = np.array(Image.open('../images/test_panda.jpg'))
-second_panda = np.array(Image.open('../images/big_panda.png'))
-third_panda = np.array(Image.open('../images/panda_brzuch.jpg'))
-panda_array = [first_panda,second_panda,third_panda]
 
 
 def calc_black_peak(panda):
@@ -29,8 +23,13 @@ def calc_white_peak(panda):
     bins = ndimage.histogram(panda_gray,0,255,256)
     return round(np.sum(bins[205:])/np.sum(bins[155:205]),5)
 
-
+#for test purposes
 if __name__ == '__main__':
+    first_panda = np.array(Image.open('../images/test_panda.jpg'))
+    second_panda = np.array(Image.open('../images/big_panda.png'))
+    third_panda = np.array(Image.open('../images/panda_brzuch.jpg'))
+    panda_array = [first_panda,second_panda,third_panda]
+
     figure,histogram = plt.subplots(5,3)
 
     for i in range(len(panda_array)):

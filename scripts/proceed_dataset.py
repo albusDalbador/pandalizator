@@ -5,6 +5,7 @@ from .colors import calc_black_peak, calc_white_peak
 import os
 import random
 import numpy as np
+import cv2
 
 
 def proceed_image(image):
@@ -33,10 +34,20 @@ def create_set_from_images(folder,target):
 
 
 def get_true_training_set():
-    return create_set_from_images('../dataset/training/pandas',1)
+    return create_set_from_images('./dataset/training/pandas',1)
+
 
 def get_false_training_set():
-    return create_set_from_images('../dataset/training/not_pandas',0)
+    return create_set_from_images('./dataset/training/not_pandas',0)
+
+
+def get_true_testing_set():
+    return create_set_from_images('./dataset/test/pandas',1)
+
+
+def get_false_testing_set():
+    return create_set_from_images('./dataset/test/not_pandas',0)
+
 
 def get_training_data():
     panda_set,panda_target = get_true_training_set()
@@ -48,14 +59,16 @@ def get_training_data():
 
     return list(zip(*tupple_list))
 
-def get_true_testing_set():
-    pass
 
-def get_false_testing_set():
-    pass
+def get_test_data():
+    panda_set,panda_target = get_true_testing_set()
+    not_panda_set,not_panda_target = get_false_testing_set()
 
-def get_testing_set():
-    pass
+    tupple_list = list(zip(panda_set + not_panda_set,panda_target + not_panda_target))
+
+    random.shuffle(tupple_list)
+
+    return list(zip(*tupple_list))
 
 
 

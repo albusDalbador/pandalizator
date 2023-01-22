@@ -6,13 +6,6 @@ import json
 from json import JSONEncoder
 
 
-# class NumpyArrayEncoder(JSONEncoder):
-#     def default(self, obj):
-#         if isinstance(obj, numpy.ndarray):
-#             return obj.tolist()
-#         return JSONEncoder.default(self, obj)
-
-
 class Pandalizator():
 
     def __init__(self,eta=0.01,n_iter=20,random_state=1):
@@ -36,6 +29,8 @@ class Pandalizator():
                 self.bias_ += update
                 errors += int(update != 0)
             self.errors_.append(errors)
+
+        # plt.plot(range(1,len(self.errors_)+ 1),self.errors_)
         return self
 
     

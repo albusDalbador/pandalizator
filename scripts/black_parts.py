@@ -30,10 +30,9 @@ def get_the_black_parts(panda):
     final_closed = final_closed.astype(np.uint8)
 
     (contours,hierarchy) = cv2.findContours(final_closed,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
-    # print(len(contours))
     return final_closed,len(contours)
 
-
+# for test purposes
 if __name__ == "__main__":
 
     first_panda = np.array(Image.open('./images/test_panda.jpg'))

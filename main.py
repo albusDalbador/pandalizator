@@ -3,10 +3,14 @@ import cv2
 from PIL import Image
 from scripts.pandalizator import Pandalizator
 from scripts.proceed_dataset import proceed_image
+from scripts.evaluate_model import evaluate_model, fit_model
 import numpy as np
 
 pandalizator = Pandalizator()
 pandalizator.read_model_from_file()
+# pandalizator = fit_model(pandalizator)
+# evaluate_model(pandalizator)
+
 
 
 layout = [[sg.Text('wybierz swoją pandę:')],
