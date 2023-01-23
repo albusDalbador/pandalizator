@@ -1,12 +1,10 @@
 from math import ceil
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
-import scipy as sp
 from scipy import ndimage
 import cv2
 import numpy as np
 from PIL import Image
-from scipy.special import euler
 
 
 def rgb2gray(rgb):

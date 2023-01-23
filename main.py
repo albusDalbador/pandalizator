@@ -6,7 +6,7 @@ from scripts.proceed_dataset import proceed_image
 from scripts.evaluate_model import evaluate_model, fit_model
 import numpy as np
 
-pandalizator = Pandalizator()
+pandalizator = Pandalizator(eta=0.2)
 pandalizator.read_model_from_file()
 # pandalizator = fit_model(pandalizator)
 # evaluate_model(pandalizator)

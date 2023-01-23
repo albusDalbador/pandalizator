@@ -1,5 +1,4 @@
  
-from distutils.log import error
 import numpy as np 
 import matplotlib.pyplot as plt 
 import json 
@@ -31,6 +30,10 @@ class Pandalizator():
             self.errors_.append(errors)
 
         # plt.plot(range(1,len(self.errors_)+ 1),self.errors_)
+        # plt.title("Ilość błędnie rozpoznanych obrazków")
+        # plt.xlabel("Numner iteracji")
+        # plt.ylabel("Ilość błędów")
+        # plt.show()
         return self
 
     
